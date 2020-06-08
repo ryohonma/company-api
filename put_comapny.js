@@ -131,6 +131,15 @@ const setting = {
       await page.$eval(`input[id="PmDdEntryTimeInputWidget_${workidx}H"]`, (el,val) => el.value = val, h);
       await page.$eval(`input[id="PmDdEntryTimeInputWidget_${workidx}M"]`, (el,val) => el.value = val, m);
     }
+    
+     //在宅勤務実施
+     if(list[i].zaitaku == true){
+      await page.select('select[name="GI_COMBOBOX13_Seq0S"]','2',{timeout: 5000});
+      await page.$eval('input[name="GI_TIMERANGE14_Seq0STH"]', (el, val) => el.value = val, sH);
+      await page.$eval('input[name="GI_TIMERANGE14_Seq0STM"]', (el, val) => el.value = val, sM);
+      await page.$eval('input[name="GI_TIMERANGE14_Seq0ETH"]', (el, val) => el.value = val, eH);
+      await page.$eval('input[name="GI_TIMERANGE14_Seq0ETM"]', (el, val) => el.value = val, eM);
+      }
 
     // 次へ >登録
     await page.click('input[id="btnNext0"]')
