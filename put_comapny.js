@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 
 const setting = {
   sleep: 200,
-  next: true,  // 前の月に翌月の勤怠をいれるときtrue 
+ // next: true,  // 前の月に翌月の勤怠をいれるときtrue 
   domain: true, // ドメインの外からアクセス
   user: '',     // ドメインの外からアクセスするときのユーザー名
   pass: '',     // ↑のパスワード
@@ -44,15 +44,16 @@ const setting = {
     await page.goto('https://www.honsha.fsi.co.jp/cws/cws?@SID=null&@SUB=root.cws.shuro.personal.term_kinmu_input&@SN=root.cws.shuro.personal.term_kinmu_input&@FN=form_shuro&@ACTION_LOG_TXT=%E5%8B%A4%E6%80%A0%E5%AE%9F%E7%B8%BE%E3%80%80%E5%85%A5%E5%8A%9B%3Cbr%3E%3Cbr%3E', { waitUntil: 'domcontentloaded' }); 
   }
 
-  // move to next (翌月の勤怠をいれるときは↓のコメントアウトを解除する)現在の月と入力した月を比較して、次の月だったときだけ、やるようにifで分岐したい
-  if(setting.next){
+  const mon = 7;
+  const year = 2020;
+  const now = new Date();
+  
+  // move to next (翌月の勤怠をいれるときは↓のコメントアウトを解除する)
+  if(mon > now.getMonth() + 1 ||(year == now.getFullYear + 1 && mon == now.getMonth-11)){
     await page.waitFor('a[id="TONXTTM"]', {timeout: 5000});
    await page.click('a[id="TONXTTM"]')
   }
    
-
-  const mon = 7;
-  const year = 2020;
   const list = [
    /*月*/ {day: 1 , start:'9:00', end:'17:30', works: [{code:'GQ3X02', time:'7:30'}],zaitaku:true},
 //    /*火*/ {day: 2 , start:'9:00', end:'18:00', works: [{code:'PGKC01', time:'8:00'}]},
@@ -136,7 +137,7 @@ const setting = {
     }
     
      //在宅勤務実施
-     if(list[i].zaitaku == true){
+     if(list[i].zaitaku){
       await page.waitFor('input[name="GI_TIMERANGE14_Seq0STH"]',{timeout: 5000});
       await page.select('select[name="GI_COMBOBOX13_Seq0S"]','2',);
       await page.$eval('input[name="GI_TIMERANGE14_Seq0STH"]', (el, val) => el.value = val, sH);
