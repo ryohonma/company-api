@@ -10,7 +10,7 @@ const setting = {
 
 (async () => {
   console.log('start -- ' +  new Date());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: false});
   let url = setting.domain ? 'http://jinkyuwap.fsi.local/cws/cws'
                            : 'http://www.honsha.fsi.co.jp';
 
@@ -47,7 +47,7 @@ const setting = {
   const mon = 7;
   const year = 2020;
   const now = new Date();
-  
+
   // move to next (翌月の勤怠をいれるときは↓のコメントアウトを解除する)
   if(mon > now.getMonth() + 1 ||(year == now.getFullYear + 1 && mon == now.getMonth-11)){
     await page.waitFor('a[id="TONXTTM"]', {timeout: 5000});
@@ -55,7 +55,7 @@ const setting = {
   }
    
   const list = [
-   /*月*/ {day: 1 , start:'9:00', end:'17:30', works: [{code:'GQ3X02', time:'7:30'}],zaitaku:true},
+   /*月*/ {day: 1 , start:'9:00', end:'17:30', works: [{code:'GQ3X02', time:'7:30'}],zaitaku:false},
 //    /*火*/ {day: 2 , start:'9:00', end:'18:00', works: [{code:'PGKC01', time:'8:00'}]},
 //   /*水*/ {day: 3 , start:'9:00', end:'18:00', works: [{code:'PGZC01', time:'7:00'}, {code: 'PGJS01', time:'1:00'}]},
 //    /*木*/ {day: 4 , start:'9:00', end:'18:00', works: [{code:'PLAB01', time:'7:00'}, {code: 'GL8L04', time:'1:00'}]},
@@ -144,6 +144,13 @@ const setting = {
       await page.$eval('input[name="GI_TIMERANGE14_Seq0STM"]', (el, val) => el.value = val, sM);
       await page.$eval('input[name="GI_TIMERANGE14_Seq0ETH"]', (el, val) => el.value = val, eH);
       await page.$eval('input[name="GI_TIMERANGE14_Seq0ETM"]', (el, val) => el.value = val, eM);
+      }else{
+        await page.waitFor('input[name="GI_TIMERANGE14_Seq0STH"]',{timeout: 5000});
+        await page.select('select[name="GI_COMBOBOX13_Seq0S"]','1',);
+        await page.$eval('input[name="GI_TIMERANGE14_Seq0STH"]', (el, val) => el.value = val, 00);
+        await page.$eval('input[name="GI_TIMERANGE14_Seq0STM"]', (el, val) => el.value = val, 00);
+        await page.$eval('input[name="GI_TIMERANGE14_Seq0ETH"]', (el, val) => el.value = val, 00);
+        await page.$eval('input[name="GI_TIMERANGE14_Seq0ETM"]', (el, val) => el.value = val, 00);
       }
 
     // 次へ >登録
