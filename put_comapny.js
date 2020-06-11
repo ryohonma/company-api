@@ -10,11 +10,11 @@ const setting = {
 
 (async () => {
   console.log('start -- ' +  new Date());
-  const browser = await puppeteer.launch({ headless: false});
+  const browser = await puppeteer.launch({ headless: true});
   let url = setting.domain ? 'http://jinkyuwap.fsi.local/cws/cws'
                            : 'http://www.honsha.fsi.co.jp';
 
-  const page = await browser.newPage();
+  const page =await browser.newPage();
   await page.goto(url, { waitUntil: 'domcontentloaded' }); 
 
   // タブを移動
@@ -138,6 +138,7 @@ const setting = {
     
      //在宅勤務実施
      if(list[i].zaitaku){
+       var num = 0;
       await page.waitFor('input[name="GI_TIMERANGE14_Seq0STH"]',{timeout: 5000});
       await page.select('select[name="GI_COMBOBOX13_Seq0S"]','2',);
       await page.$eval('input[name="GI_TIMERANGE14_Seq0STH"]', (el, val) => el.value = val, sH);
@@ -147,10 +148,10 @@ const setting = {
       }else{
         await page.waitFor('input[name="GI_TIMERANGE14_Seq0STH"]',{timeout: 5000});
         await page.select('select[name="GI_COMBOBOX13_Seq0S"]','1',);
-        await page.$eval('input[name="GI_TIMERANGE14_Seq0STH"]', (el, val) => el.value = val, 00);
-        await page.$eval('input[name="GI_TIMERANGE14_Seq0STM"]', (el, val) => el.value = val, 00);
-        await page.$eval('input[name="GI_TIMERANGE14_Seq0ETH"]', (el, val) => el.value = val, 00);
-        await page.$eval('input[name="GI_TIMERANGE14_Seq0ETM"]', (el, val) => el.value = val, 00);
+        await page.$eval('input[name="GI_TIMERANGE14_Seq0STH"]', (el, val) => el.value = val,0);
+        await page.$eval('input[name="GI_TIMERANGE14_Seq0STM"]', (el, val) => el.value = val,0);
+        await page.$eval('input[name="GI_TIMERANGE14_Seq0ETH"]', (el, val) => el.value = val,0);
+        await page.$eval('input[name="GI_TIMERANGE14_Seq0ETM"]', (el, val) => el.value = val,0);
       }
 
     // 次へ >登録
