@@ -1,0 +1,22 @@
+{
+  "name": "PsForWebMockServer",
+  "version": "1.0.0",
+  "description": "PsForWebMockServer",
+  "main": "dist/index.js",
+  "author": "FSI",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/MockServer/src/main.js",
+    "dev-start": "ts-node src/main.ts"
+  },
+  "dependencies": {
+    "@types/express": "4.17.6",
+    "@types/node": "13.13.4",
+    "express": "4.17.1",
+    "ts-node": "8.10.0",
+    "typescript": "3.8.3"
+  }
+}

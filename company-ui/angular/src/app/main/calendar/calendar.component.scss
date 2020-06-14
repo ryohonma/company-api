@@ -1,0 +1,104 @@
+// layout margin setting
+$space-s      : 4px;
+$space-s-plus : 6px;
+$space-m      : 8px;
+$space-m-plus : 10px;
+$space-l      : 12px;
+$space-xl     : 18px;
+$space-xxl    : 24px;
+
+// color pallett
+$color-brown : #654B3B;
+$color-brownalpha : #654B3B66;
+$color-silver: #c7c7c7;
+$color-silveralpha: #c7c7c799;
+$color-skyblue: #42ACD3;
+$color-black: #433838;
+$color-blackalpha: #4338389d;
+$color-blackalpha2: #433838CC;
+$color-bluegray: #8D8D11;
+$color-bluegrayalpha: #8D8D1134;
+$color-lightbeige: #F2F0EE;
+$color-white: #ffffff;
+$color-whitealpha: #f2f0ee;
+$color-coral: #D34242;
+$color-coralalpha : #D34242db;
+$color-coralalpha2: #D3424219;
+$color-whitesmoke: #FAFAFA;
+$color-gray: #D3D3D3;
+$color-lightgray: #F2F0EE;
+$color-dimgray: #707070;
+$color-lightgrayalpha: #707070B2;
+$color-lightsilver: #6F7579;
+
+// font style
+$font-xlarge      : 24px;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  flex-shrink: 0;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .title {
+      display:flex;
+      margin: auto $space-xl;
+      text-align: center;
+      font-weight: bold;
+      color: $color-black;
+      align-items: center;
+      font-size: $font-xlarge;
+    }
+
+    .btn {
+      margin: $space-m $space-l;
+      width: 48px;
+    }
+  }
+
+  .schedule {
+    flex: 1;
+    min-height: 0;
+    flex-shrink: 0;
+    overflow-y: auto;
+    align-items: center;
+    margin-left: $space-l;
+    align-self: center;
+
+    .box {
+      display:grid;
+      width:95%;
+      grid-template-columns: 140px auto 1fr auto;
+      border-style: solid;
+      border-top-width:0px;
+      border-left-width:1px;
+      border-right-width:1px;
+      border-bottom-width:1px;
+      border-color: $color-black;
+      width: 640px;
+
+      .day {
+        margin: $space-l;
+      }
+    }
+    .box:first-child {
+      border-top-width:1px;
+    }
+
+    .boxToday {
+      background-color: $color-skyblue;
+    }
+    .boxOther {
+      background-color: $color-white;
+    }
+
+
+  }
+
+}

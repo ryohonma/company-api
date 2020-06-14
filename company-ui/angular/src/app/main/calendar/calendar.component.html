@@ -1,0 +1,20 @@
+<div class="root">
+  <div class="header">
+    <div class="btn">
+      <button (click)="leftClick()">＜＜</button>
+    </div>
+    <div class="title">{{getTitle()}}</div>
+    <div class="btn">
+      <button (click)="rightClick()">＞＞</button>
+    </div>
+  </div>
+
+  <div class="schedule">
+    <ng-container *ngFor="let day of state.dateList">
+      <div class="box" [ngClass]="boxClass(day)">
+        <span class="day">{{getDay(day)}}</span>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
