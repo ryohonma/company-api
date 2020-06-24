@@ -1,27 +1,57 @@
+// AnglarコアライブラリからComponentシンボルをインポート
+// 常にコンポーネントクラスに@Componentで注釈をつける
+
 import { Component, OnInit } from '@angular/core';
 
+// インターフェースの作成
+// プロパティを与える
+// string...文字の型
+// number...数字の型
+interface Work {
+  number:string;
+  time:string;
+}
+
+interface WorkingHours {
+  day:number;
+  start:string;
+  end:string;
+  worklist:Array<Work>;
+}
 
 interface CalendarState {
   year: number;
   month: number;
-  dateList: number[];
+  dateList: Array<WorkingHours>;
 }
 
+// @component...コンポーネントのangularメタデータを指定するデコレーター関数
 @Component({
+  // selector-コンポーネントのcss要素セレクター-
   selector: 'cw-calendar',
+  // templaterUrl-コンポーネントのテンプレートファイルの場所-
   templateUrl: './calendar.component.html',
+  // styleUrls-コンポーネントのプライベートcssスタイルの場所-
   styleUrls: ['./calendar.component.scss']
 })
+// コンポーネントの初期化
+// コンストラクターを使用してプロパティを宣言および初期化できる
+// 格納モデルの作成（登録するデータを格納するモデル）
+// {{変数名}}でコンポーネントが持つ変数を表示することができる。
 export class CalendarComponent implements OnInit {
 
   constructor() { }
-
+  
   public state : CalendarState = {
     year: (new Date()).getFullYear(),
     month:(new Date()).getMonth() + 1,
     dateList: [],
   };
-
+  
+  
+  
+  
+  //ライフサイクルフック
   ngOnInit(): void {
     const now = new Date();
     this.createDateList(this.state.year, this.state.month);
@@ -30,12 +60,25 @@ export class CalendarComponent implements OnInit {
   // 日付リストを作成
   public createDateList(year: number, month: number) {
     const endDayOfMonth = new Date(year, month, 0).getDate();
+    //0か6だった場合にはプッシュしない
     const dateArray = [];
+
+
     for (let i = 1; i <= endDayOfMonth; i++) {
-      dateArray.push(i);
+      //dateArray.push({day:i, start:'9:00', end:'17:30'});
+
+      //const week = new Date(year, month, i).getDay();
+      const week = new Date(year, month-1, i).getDay();
+      
+
+      if (week !==0 && week !==6){
+        dateArray.push({day:i, start:'9:00', end:'17:30'})
+
+      }
     }
     this.state = { year, month, dateList: dateArray };
   }
+
 
   // match day
   public isMatchDay (dt1?: Date, dt2?: Date) {
@@ -80,7 +123,7 @@ export class CalendarComponent implements OnInit {
     const dt = new Date(this.state.year, this.state.month - 1, day);
 
     return this.format(dt, 'MM月DD日（W）', false);
-  };
+  }
 
 
   // 現在時刻が本日かどうか

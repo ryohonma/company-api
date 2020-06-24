@@ -55,7 +55,7 @@ const setting = {
   }
    
   const list = [
-   /*月*/ {day: 1 , start:'9:00', end:'17:30', works: [{code:'GQ3X02', time:'7:30'}],zaitaku:false},
+   /*月*/ {day: 16 , start:'9:00', end:'17:40', works: [{code:'GQ3X02', time:'7:30'}],zaitaku:false},
 //    /*火*/ {day: 2 , start:'9:00', end:'18:00', works: [{code:'PGKC01', time:'8:00'}]},
 //   /*水*/ {day: 3 , start:'9:00', end:'18:00', works: [{code:'PGZC01', time:'7:00'}, {code: 'PGJS01', time:'1:00'}]},
 //    /*木*/ {day: 4 , start:'9:00', end:'18:00', works: [{code:'PLAB01', time:'7:00'}, {code: 'GL8L04', time:'1:00'}]},

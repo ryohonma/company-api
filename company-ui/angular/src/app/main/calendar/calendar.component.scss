@@ -84,8 +84,21 @@ $font-xlarge      : 24px;
       width: 640px;
 
       .day {
-        margin: $space-l;
+        margin: 0 10px; 
+
       }
+      //値1...指定した値が上下左右
+      //値2...記述した順に上下、左右
+      //値3...記述した順に上、左右、下
+      //値4...記述した順に上、右、下、左
+      // .start{
+      //   width:50px;
+      // }
+ 
+      // .end{
+      //   width:50px;
+      // }
+
     }
     .box:first-child {
       border-top-width:1px;
@@ -97,7 +110,7 @@ $font-xlarge      : 24px;
     .boxOther {
       background-color: $color-white;
     }
-
+    
 
   }
 
