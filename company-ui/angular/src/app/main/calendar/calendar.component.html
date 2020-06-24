@@ -14,17 +14,13 @@
       <div class="box" [ngClass]="boxClass(day.day)">　
         <span class="day">{{getDay(day.day)}}</span>
         <!-- 開始時刻 -->
-        <form>
           <span class="start">{{day.start}}</span> 
           <input id="txtName" name="txtName" type="text"
             [(ngModel)]="day.start" placeholder="9:00"/>
-        </form>
         <!-- 終業時刻 -->
-        <form>
           <span class="end">{{day.end}}</span> -->
-          <input id="txtName" name="txtName" type="text"
-            [(ngModel)]="day.end" placeholder="17:00"/>
-         </form>
+          <!-- <input id="txtName" name="txtName" type="text"
+            [(ngModel)]="day.end" placeholder="17:00"/> -->
       </div>
     </ng-container> 
   </div>
