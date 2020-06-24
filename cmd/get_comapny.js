@@ -39,17 +39,6 @@ const setting = {
 
   const mon = 6;
   const year = 2020;
-  //"土日含めて月の日数を配列で取得"→"日、工数番号ごとにworklistに実績を追加"→"実績のない日をworklistから削除"に変更予定(2020/6/23)
-  //日にち自動取得(未完成)
-  if (setting.domain) {
-    await page.goto('http://jinkyuwap.fsi.local/cws/cws?@SID=null&@SUB=root.cws.shuro.personal.term_kinmu_input&@SN=root.cws.shuro.personal.term_kinmu_input&@FN=form_shuro&@ACTION_LOG_TXT=%E5%8B%A4%E6%80%A0%E5%AE%9F%E7%B8%BE%E3%80%80%E5%85%A5%E5%8A%9B%3Cbr%3E%3Cbr%3E', { waitUntil: 'domcontentloaded' });
-  } else {
-    await page.goto('https://www.honsha.fsi.co.jp/cws/cws?@SID=null&@SUB=root.cws.shuro.personal.term_kinmu_input&@SN=root.cws.shuro.personal.term_kinmu_input&@FN=form_shuro&@ACTION_LOG_TXT=%E5%8B%A4%E6%80%A0%E5%AE%9F%E7%B8%BE%E3%80%80%E5%85%A5%E5%8A%9B%3Cbr%3E%3Cbr%3E', { waitUntil: 'domcontentloaded' });
-  }
-  var syukkinn = await page.$$("table tr .mg_dc_confirmed #DAY");
-
-  //const days = [1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 15, 16, 17, 18, 19, 22, 23, 24, 25, 26, 29, 30];
-
   //"工数情報　照会"サイト移動
   if (setting.domain) {
     await page.goto('http://jinkyuwap.fsi.local/cws/cws?@SID=null&@SUB=root.cws.shuro.personal.project.project_workplan&@SN=root.cws.shuro.personal.project.project_workplan&@FN=FORM_PROJECT_REF&@ACTION_LOG_TXT=%E5%AE%9F%E7%B8%BE%E5%B7%A5%E6%95%B0%E7%85%A7%E4%BC%9A%EF%BC%88%E5%80%8B%E4%BA%BA%EF%BC%89', { waitUntil: 'domcontentloaded' });
@@ -58,12 +47,17 @@ const setting = {
   }
   var selector = await page.$$("table .collect .collect");//工数番号の種類数
 
+
   //工数取得
-  var worklist = days.map(d => { return { day: d, works: [] }; });
   var resultSelector = await page.$("table .collect");
+  var resultDay = await page.evaluateHandle(el => el.previousElementSibling, resultSelector);
+  var days = await resultDay.$$eval(".b", list => {
+    return list.map(day => day.textContent.slice(1));
+  });
+  var worklist = days.map(d => { return {days:d,works:[]};});
   for (var i = 0; i < selector.length; i++) {
     var koubann = await resultSelector.$eval(".collect", list => {
-      return list.textContent
+      return list.textContent.slice(4,13)
     });
     resultSelector = await page.evaluateHandle(el => el.nextElementSibling, resultSelector);
     var datas = await resultSelector.$$eval(".b", list => {
@@ -71,8 +65,6 @@ const setting = {
     });
     resultSelector = await page.evaluateHandle(el => el.nextElementSibling, resultSelector);
 
-    //期待値に合わせて整形する(修正途中)
-    var count = 0;
     for (j = 0; j < datas.length; j++) {
       if (datas[j] !== '') {
         worklist[j].works.push({ code: `${koubann}`, time: `${datas[j]}` });
@@ -82,8 +74,7 @@ const setting = {
 
   var list = [];
 
-  for (var i = 10; i < day.length; i++) {
-
+  for (var i = 0; i < days.length; i++) {
     if (setting.domain) {
       await page.goto('http://jinkyuwap.fsi.local/cws/cws?@SID=null&@SUB=root.cws.shuro.personal.term_kinmu_input&@SN=root.cws.shuro.personal.term_kinmu_input&@FN=form_shuro&@ACTION_LOG_TXT=%E5%8B%A4%E6%80%A0%E5%AE%9F%E7%B8%BE%E3%80%80%E5%85%A5%E5%8A%9B%3Cbr%3E%3Cbr%3E', { waitUntil: 'domcontentloaded' });
     } else {
@@ -111,19 +102,6 @@ const setting = {
 
     //期待値として編集
     list.push({ day: `${days[i]}`, start: `${sH}:${sM}`, end: `${eH}:${eM}`, works: `${worklist[i].works}`, zaitaku: zaitaku });
-    //返却結果出力
-    console.log(`${year}-${mon}-${list[i].day}`);
-    console.log(`${list[i].start}~ ${list[i].end}`);
-    for (var j = 0; j < list[i].works.length; j++) {
-      console.log(`${list[i].works[j].code}:${list[i].works[j].time}`);
-    }
-    if (!list[i].zaitaku) {
-      console.log(`在宅勤務なし`);
-    } else {
-      console.log(`在宅勤務実施`);
-    }
-
-    console.log('-------------------')
   }
 
   await browser.close();
