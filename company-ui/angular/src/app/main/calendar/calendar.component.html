@@ -13,7 +13,18 @@
     <ng-container *ngFor="let day of state.dateList">
       <div class="box" [ngClass]="boxClass(day.day)">　
         <span class="day">{{getDay(day.day)}}</span>
-     
+      <!-- <form> -->
+        <!--勤怠開始時刻-->
+        <span class="start">{{day.start}}</span>
+        <input id="txtName" name="txtName" type="text"
+          [(ngModel)]="day.start" placeholder="9:00"/>
+      <!-- </form>  -->
+      <!-- <form> -->
+        <!--勤怠終了時刻-->
+        <span class="end">{{day.end}}</span>
+        <input id="txtName" name="txtName" type="text"
+          [(ngModel)]="day.end" placeholder="17:30"/>
+      <!-- </form>  -->
       </div>
     </ng-container> 
   </div>
