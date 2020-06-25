@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+const { TimeoutError } = require('puppeteer/Errors');
+const e = require('express');
 
 const setting = {
   domain: true, // ドメインの外からアクセス
@@ -8,7 +10,7 @@ const setting = {
 
 (async () => {
   console.log('start -- ' + new Date());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: false});
   let url = setting.domain ? 'http://jinkyuwap.fsi.local/cws/cws'
     : 'http://www.honsha.fsi.co.jp';
 
@@ -71,37 +73,27 @@ const setting = {
       }
     }
   }
+  //不要な配列の削除
+  worklist = worklist.filter(e => { return e.works!="";  });
 
   var list = [];
 
-  for (var i = 0; i < days.length; i++) {
+  for (var i = 0; i < worklist.length; i++) {
     if (setting.domain) {
       await page.goto('http://jinkyuwap.fsi.local/cws/cws?@SID=null&@SUB=root.cws.shuro.personal.term_kinmu_input&@SN=root.cws.shuro.personal.term_kinmu_input&@FN=form_shuro&@ACTION_LOG_TXT=%E5%8B%A4%E6%80%A0%E5%AE%9F%E7%B8%BE%E3%80%80%E5%85%A5%E5%8A%9B%3Cbr%3E%3Cbr%3E', { waitUntil: 'domcontentloaded' });
     } else {
       await page.goto('https://www.honsha.fsi.co.jp/cws/cws?@SID=null&@SUB=root.cws.shuro.personal.term_kinmu_input&@SN=root.cws.shuro.personal.term_kinmu_input&@FN=form_shuro&@ACTION_LOG_TXT=%E5%8B%A4%E6%80%A0%E5%AE%9F%E7%B8%BE%E3%80%80%E5%85%A5%E5%8A%9B%3Cbr%3E%3Cbr%3E', { waitUntil: 'domcontentloaded' });
     }
-    // 詳細
-    await page.waitFor(`input[id="BTNDTL${year}_${mon}_${days[i]}0"]`, { timeout: 5000 });
-    await page.click(`input[id="BTNDTL${year}_${mon}_${days[i]}0"]`);
-
-    //勤怠情報取得
+   
     //勤務時間取り出す
-    var sH = await page.$eval('input[id="KNMTMRNGSTH"]', el => el.value);
-    var sM = await page.$eval('input[id="KNMTMRNGSTM"]', el => el.value);
-    var eH = await page.$eval('input[id="KNMTMRNGETH"]', el => el.value);
-    var eM = await page.$eval('input[id="KNMTMRNGETM"]', el => el.value);
-
-    //在宅可否 
-    var zaitakucode = await page.$eval('select[name="GI_COMBOBOX13_Seq0S"]', el => el.value);
-    var zaitaku
-    if (zaitakucode == '1') {
-      zaitaku = false;
-    } else {
-      zaitaku = true;
-    }
+    await page.waitFor(`#K${year}_${mon}_${worklist[i].days}0STH`, el => {return el.textContent}, {timeout: 5000});
+    var sH = await page.$eval(`#K${year}_${mon}_${worklist[i].days}0STH`, el => {return el.textContent});
+    var sM = await page.$eval(`#K${year}_${mon}_${worklist[i].days}0STM`, el => {return el.textContent});
+    var eH = await page.$eval(`#K${year}_${mon}_${worklist[i].days}0ETH`, el => {return el.textContent});
+    var eM = await page.$eval(`#K${year}_${mon}_${worklist[i].days}0ETM`, el => {return el.textContent});
 
     //期待値として編集
-    list.push({ day: `${days[i]}`, start: `${sH}:${sM}`, end: `${eH}:${eM}`, works: `${worklist[i].works}`, zaitaku: zaitaku });
+    list.push({ day: `${worklist[i].days}`, start: `${sH}:${sM}`, end: `${eH}:${eM}`, works: `${worklist[i].works}`,/* zaitaku: zaitaku:*/ });
   }
 
   await browser.close();
