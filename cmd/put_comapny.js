@@ -10,7 +10,7 @@ const setting = {
 
 (async () => {
   console.log('start -- ' +  new Date());
-  const browser = await puppeteer.launch({ headless: true});
+  const browser = await puppeteer.launch({ headless: false});
   let url = setting.domain ? 'http://jinkyuwap.fsi.local/cws/cws'
                            : 'http://www.honsha.fsi.co.jp';
 
