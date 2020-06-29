@@ -23,8 +23,9 @@ const setting = {
 
   if (!setting.domain) {
     // ログイン
-    await page.$eval('input[id="legacy_xoopsform_block_uname"]', el => el.value = setting.user);
-    await page.$eval('input[id="legacy_xoopsform_block_pass"]', el => el.value = setting.pass);
+    await page.waitFor('input[id="legacy_xoopsform_block_uname"]', {timeout: 5000});
+    await page.$eval('input[id="legacy_xoopsform_block_uname"]', (el, val) => el.value = val, setting.user);
+    await page.$eval('input[id="legacy_xoopsform_block_pass"]' , (el, val) => el.value = val, setting.pass);
 
     // click wait
     await page.click('input[type="image"]')
