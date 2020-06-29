@@ -75,6 +75,8 @@ export class CalendarComponent implements OnInit {
         dateArray.push({day:i, start:'9:00', end:'17:30'})
 
       }
+
+      
     }
     this.state = { year, month, dateList: dateArray };
   }

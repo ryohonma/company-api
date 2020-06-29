@@ -9,17 +9,47 @@
     </div>
   </div>
 
-  <div class="schedule">
-    <ng-container *ngFor="let day of state.dateList">
-      <div class="box" [ngClass]="boxClass(day.day)">　
-        <span class="day">{{getDay(day.day)}}</span>
-        <!--勤怠開始時刻-->
-        <input class="start" id="txtName" name="txtName" type="text"
-          [(ngModel)]="day.start" placeholder="{{day.start}}"/>
-        <!--勤怠終了時刻-->
-        <input class="end" id="txtName" name="txtName" type="text"
-          [(ngModel)]="day.end" placeholder="{{day.end}}"/>
-      </div>
-    </ng-container> 
+  <div class="calender">
+   <header>
+     <div class="header2">
+       <div class="workingHours">就業時間
+        <input class="registrationNum" placeholder="登録番号">
+        <input class="registrationNum2" placeholder="登録番号">
+        <input class="registrationNum3" placeholder="登録番号">
+       </div>
+     </div>
+   </header>
+  
+    <div class="schedule">
+      <ng-container *ngFor="let day of state.dateList">
+
+        <div class="box" [ngClass]="boxClass(day.day)">　
+          <span class="day">{{getDay(day.day)}}</span>
+          <!--勤怠開始時刻-->
+          <input class="start" id="txtStart" name="txtName" type="text"
+            [(ngModel)]="day.start" placeholder="{{day.start}}"/>
+          <!--勤怠終了時刻-->
+          <input class="end" id="txtEnd" name="txtName" type="text"
+            [(ngModel)]="day.end" placeholder="{{day.end}}"/>
+
+          <div class="registration">
+          
+            <!--実行時間excutionTime-->
+            <input class="excutionTime" id="txtName" name="txtName" type="text"
+              [(ngModel)]="day.excutionTime"/>
+
+        
+            <!--実行時間excutionTime2-->
+            <input class="excutionTime2" id="txtName" name="txtName" type="text"
+              [(ngModel)]="day.excutionTime2"/>
+            
+          
+            <!--実行時間excutionTime3-->
+            <input class="excutionTime3" id="txtName" name="txtName" type="text"
+              [(ngModel)]="day.excutionTime2"/>
+          </div>
+        </div>
+      </ng-container> 
+    </div>
+   </div>
   </div>
-</div>

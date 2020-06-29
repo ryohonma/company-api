@@ -62,56 +62,126 @@ $font-xlarge      : 24px;
     }
   }
 
-  .schedule {
-    flex: 1;
-    min-height: 0;
-    flex-shrink: 0;
-    overflow-y: auto;
-    align-items: center;
-    margin-left: $space-l;
-    align-self: center;
+.calender{
+  flex: 1;
+  min-height: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+  align-items: center;
+  margin-left: $space-l;
+  align-self: center;
 
-    .box {
-      display:grid;
-      width:95%;
-      grid-template-columns: 140px auto 1fr auto;
+
+    .header2 {
+      display: grid;
+      grid-template-columns: 640px auto 1fr auto;
+      text-align: right;
+      flex: 1;
+      min-height: 0;
+      flex-shrink: 0;
+      overflow-y: auto;
+      align-items: center;
+      margin-left: $space-l;
+      align-self: center;
+      width: 640px;
+
       border-style: solid;
-      border-top-width:0px;
+      border-top-width:1px;
       border-left-width:1px;
       border-right-width:1px;
       border-bottom-width:1px;
       border-color: $color-black;
-      width: 640px;
 
-      .day {
-        margin: 0 10px; 
-
-      }
-      //値1...指定した値が上下左右
-      //値2...記述した順に上下、左右
-      //値3...記述した順に上、左右、下
-      //値4...記述した順に上、右、下、左
-      .start{
-        width:50px
-      }
- 
-      .end{
-        width:50px;
-      }
-
-    }
-    .box:first-child {
-      border-top-width:1px;
-    }
-
-    .boxToday {
-      background-color: $color-skyblue;
-    }
-    .boxOther {
-      background-color: $color-white;
-    }
+        .workingHours{
+          grid-column: 1fr;
+        }
     
 
+        .registrationNum{
+          width: 120px;
+          grid-column: 1fr;
+        }
+        .registrationNum2{
+          width: 120px;
+          grid-column: 1fr;
+        }
+        .registrationNum3{
+          width: 120px;
+          grid-column: 1fr;
+        }
+
+      
+    }
   }
+    
+  
+
+
+    .schedule {
+      flex: 1;
+      min-height: 0;
+      flex-shrink: 0;
+      overflow-y: auto;
+      align-items: center;
+      margin-left: $space-l;
+      align-self: center;
+
+      .box {
+        display:grid;
+        width:95%;
+        grid-template-columns: 140px auto 1fr auto;
+        border-style: solid;
+        border-top-width:0px;
+        border-left-width:1px;
+        border-right-width:1px;
+        border-bottom-width:1px;
+        border-color: $color-black;
+        width: 640px;
+        
+
+        .day {
+          margin: 0 10px; 
+
+        }
+        //値1...指定した値が上下左右
+        //値2...記述した順に上下、左右
+        //値3...記述した順に上、左右、下
+        //値4...記述した順に上、右、下、左
+        .start{
+          width: 50px;
+        }
+        .end{
+          width: 50px;
+        }
+
+        .excutionTime{
+          width: 120px;
+         
+        }
+
+        .excutionTime2{
+          width: 120px;
+    
+        }
+        .excutionTime3{
+          width: 120px;
+        }
+
+      }
+      .box:first-child {
+        border-top-width:1px;
+      }
+
+      .boxToday {
+        background-color: $color-skyblue;
+      }
+      .boxOther {
+        background-color: $color-white;
+      }
+      
+
+    }
+
+  
 
 }
