@@ -75,6 +75,7 @@ $font-xlarge      : 24px;
     .header2 {
       display: grid;
       grid-template-columns: 640px auto 1fr auto;
+      grid-template-rows: 1fr;
       text-align: right;
       flex: 1;
       min-height: 0;
@@ -94,7 +95,11 @@ $font-xlarge      : 24px;
 
         .workingHours{
           grid-column: 1fr;
+          border-left-width:1px;
+          
         }
+
+    
     
 
         .registrationNum{
@@ -109,9 +114,9 @@ $font-xlarge      : 24px;
           width: 120px;
           grid-column: 1fr;
         }
-
       
     }
+    
   }
     
   
